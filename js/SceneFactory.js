@@ -10,7 +10,7 @@ class SceneFactory{
         const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 3000);
         camera.position.x = 0;
         camera.position.y = 50;
-        camera.position.z = 1500;
+        camera.position.z = 1000;
         camera.lookAt(0,50,0);
         
         iScene.cameras.push(camera);
@@ -43,7 +43,7 @@ class SceneFactory{
         //light1.castShadow = true;
         light1.shadow.mapSize.width = light_resolution;
         light1.shadow.mapSize.height = light_resolution;
-        light1.shadow.bias= -0.0002; 
+        light1.shadow.bias= -0.0001; 
         iScene.lights.push(light1);
 
         let light_ambiente = new THREE.AmbientLight(0xFFFFFF ,0.5);

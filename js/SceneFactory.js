@@ -9,7 +9,7 @@ class SceneFactory{
         
         const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 3000);
         camera.position.x = 0;
-        camera.position.y = 50;
+        camera.position.y = 75;
         camera.position.z = 1000;
         camera.lookAt(0,50,0);
         
@@ -31,14 +31,14 @@ class SceneFactory{
         await icon_model.loadModel();
         icon_model.scene.rotation.x=90*Math.PI/180;
         icon_model.scene.scale.set(5,5,5);
-        icon_model.scene.position.set(0,50,0);
+        icon_model.scene.position.set(0,75,0);
         icon_model.scene.pos = 0;
         iScene.imported_scenes['light-icon'] =icon_model.scene;
 
         const light_resolution = 512*Math.pow(2,0);
 
         let light1 = new THREE.PointLight(0xFF7A21, 2, 10000,2);
-        light1.position.set(0, 50, 0);
+        light1.position.set(0, 75, 0);
         light1.pos = 0;
         //light1.castShadow = true;
         light1.shadow.mapSize.width = light_resolution;
@@ -53,7 +53,7 @@ class SceneFactory{
             //context needs to be a SceneWrapper
             const icon_model = context.imported_scenes['light-icon'];
             icon_model.rotation.z += 0.01;
-            const target_height = 50;
+            const target_height = 75;
             icon_model.position.y = target_height + Math.sin(2*Math.PI*icon_model.pos/200)*10;
             icon_model.pos += 1;
             if (icon_model.pos>1000){
@@ -65,7 +65,7 @@ class SceneFactory{
         let light_animation = function(context) {
             //context needs to be a SceneWrapper
             const light = context.lights[0];
-            const target_height = 50;
+            const target_height = 75;
             light.position.y = target_height + Math.sin(2*Math.PI*light.pos/200)*10;
             icon_model.pos += 1;
             if (icon_model.pos>1000){

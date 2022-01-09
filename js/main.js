@@ -38,6 +38,7 @@ async function initiate_render(){
     const pointer = controller.selector.pointer;
     
     document.addEventListener( 'mousemove', onPointerMove );
+    window.addEventListener( 'resize', onResize );
     
     
     
@@ -59,5 +60,12 @@ async function initiate_render(){
     function onPointerMove( event ) {
         pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    }
+
+    function onResize() {
+        scene.cameras[scene.active_camera].aspect = window.innerWidth / window.innerHeight;
+		scene.cameras[scene.active_camera].updateProjectionMatrix();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        //controller.player_control.update();
     }
 }

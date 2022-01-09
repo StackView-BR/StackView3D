@@ -14,7 +14,7 @@ class SceneFactory{
         camera.position.x = 0;
         camera.position.y = 75;
         camera.position.z = 600;
-        camera.lookAt(0,50,0);
+        camera.lookAt(0,0,0);
         
         iScene.cameras.push(camera);
         iScene.active_camera = 0;
@@ -27,10 +27,12 @@ class SceneFactory{
         let iController = new SceneControler(iScene);
         iController.mixer = new THREE.AnimationMixer( g_model.scene);
         const clips = g_model.animations;
-        iController.clip_animators['wave'] = THREE.AnimationClip.findByName( clips, 'KeyAction.001' );
-        iController.mixer.clipAction( iController.clip_animators['wave'] ).play();
-        
-        let icon_model= new ModelImporter('../3DAssets/SV-icon-3D-light.gltf');
+        const wave = THREE.AnimationClip.findByName( clips, 'KeyAction.001' );
+        const anim = iController.mixer.clipAction( wave );
+        anim.setLoop(THREE.LoopOnce);
+        iScene.animations.controled['wave']=anim;
+
+        let icon_model= new ModelImporter('../3DAssets/SV-icon-3D-light-low.gltf');
         await icon_model.loadModel();
         icon_model.scene.rotation.x=90*Math.PI/180;
         icon_model.scene.scale.set(5,5,5);
@@ -52,7 +54,7 @@ class SceneFactory{
         let light2 = new THREE.PointLight(0xFF7A21, 2, 10000,2);
         light2.position.set(0, 75, -75);
         light2.pos = 0;
-        light2.castShadow = true;
+        //light2.castShadow = true;
         light2.shadow.mapSize.width = light_resolution;
         light2.shadow.mapSize.height = light_resolution;
         light2.shadow.bias= -0.0001; 

@@ -1,6 +1,7 @@
 import {OrbitControls} from './three/examples/jsm/controls/OrbitControls.js';
 import {FirstPersonControls} from './three/examples/jsm/controls/FirstPersonControls.js';
 import {FirstPersonLimitedControls} from './FirstPersonLimitedControls.js';
+import * as THREE from './three/build/three.module.js';
 
 class SceneControler {
     static ORBIT_CONTROL = 0;
@@ -11,8 +12,11 @@ class SceneControler {
         this.prev_time = 0;
         this.scene = scene;
         this.player_control = null;
-        this.clip_animators = {};
-        this.mixer=null
+        this.mixer=null;
+        this.selector = { 
+            raycaster: new THREE.Raycaster(),
+            pointer: new THREE.Vector2(),
+        }
     }
 
     setRender(renderer){
@@ -34,11 +38,6 @@ class SceneControler {
         }
         if(mode == SceneControler.FIRST_PERSON_PLANAR_CONTROL){
             this.player_control = new FirstPersonLimitedControls( this.scene.cameras[this.scene.active_camera], this.renderer.domElement );
-            this.player_control.limits = {
-                x: [-300 , 300],
-                y: [74,76],
-                z: [200, 1200]
-            };
 			this.player_control.movementSpeed = 100;
 			this.player_control.lookSpeed = 0.1;
         }
@@ -57,6 +56,23 @@ class SceneControler {
             }
             this.prev_time=time;
         }
+        
+        this.selectObjects();
     };
+    
+    selectObjects(){
+        this.selector.raycaster.setFromCamera(this.selector.pointer, this.scene.cameras[this.scene.active_camera]);
+    
+        const intersects_light = this.selector.raycaster.intersectObjects(this.scene.imported_scenes['light-icon'].children, false );
+        
+        if ( intersects_light.length > 0 ) {
+            if (!this.scene.animations.controled['wave'].isRunning()) {
+                this.scene.animations.controled['wave'].reset();
+                this.scene.animations.controled['wave'].play();
+            }
+        };
+    }
+
+
 
 } export {SceneControler};

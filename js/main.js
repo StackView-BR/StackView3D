@@ -23,22 +23,41 @@ async function initiate_render(){
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.shadowMapSoft = true;
-
+    
     //used for static rendered shadows
     //renderer.physicallyCorrectLights = true;
     
     let [scene,controller] = await SceneFactory.IconScene();
     controller.setRender(renderer);
     controller.setControlModel(SceneControler.FIRST_PERSON_PLANAR_CONTROL,render);
+    controller.player_control.limits = {
+        x: [-300 , 300],
+        y: [74,76],
+        z: [200, 1200]
+    };
+    const pointer = controller.selector.pointer;
+    
+    document.addEventListener( 'mousemove', onPointerMove );
+    
+    
+    
     animate(); //Start Animations
     
+    
+    
     function render() {
-        scene.render(renderer); 
+        scene.render(renderer);
+        
     }
     
     function animate(time) {
         requestAnimationFrame( animate );
         controller.default_animate(time);
         render();
+    }
+
+    function onPointerMove( event ) {
+        pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     }
 }

@@ -10,7 +10,7 @@ class SceneWrapper{
         this.imported_scenes = {};
         this.animations = {
             'default': [],
-            'controled': []
+            'controled': {}
         };
         if (based_scene===undefined){
             this.scene = new THREE.Scene();

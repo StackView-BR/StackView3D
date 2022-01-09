@@ -1,7 +1,11 @@
 import {OrbitControls} from './three/examples/jsm/controls/OrbitControls.js';
+import {FirstPersonControls} from './three/examples/jsm/controls/FirstPersonControls.js';
+import {FirstPersonLimitedControls} from './FirstPersonLimitedControls.js';
 
 class SceneControler {
-    static ORBIT_CONTROLS = 0;
+    static ORBIT_CONTROL = 0;
+    static FIRST_PERSON_CONTROL = 1;
+    static FIRST_PERSON_PLANAR_CONTROL = 1;
 
     constructor(scene) {
         this.prev_time = 0;
@@ -16,12 +20,27 @@ class SceneControler {
     };
     
     setControlModel(mode, render_callback) {
-        if(mode == SceneControler.ORBIT_CONTROLS){
+        if(mode == SceneControler.ORBIT_CONTROL){
             this.player_control = new OrbitControls(this.scene.cameras[this.scene.active_camera], this.renderer.domElement);
-            this.player_control.addEventListener( 'change', render_callback ); // use if there is no animation loop
+            //this.player_control.addEventListener( 'change', render_callback ); // use if there is no animation loop
             this.player_control.minDistance = 2;
             this.player_control.maxDistance = 10000;
-            this.player_control.update();
+            //this.player_control.update();
+        }
+        if(mode == SceneControler.FIRST_PERSON_CONTROL){
+            this.player_control = new FirstPersonControls( this.scene.cameras[this.scene.active_camera], this.renderer.domElement );
+			this.player_control.movementSpeed = 100;
+			this.player_control.lookSpeed = 0.1;
+        }
+        if(mode == SceneControler.FIRST_PERSON_PLANAR_CONTROL){
+            this.player_control = new FirstPersonLimitedControls( this.scene.cameras[this.scene.active_camera], this.renderer.domElement );
+            this.player_control.limits = {
+                x: [-300 , 300],
+                y: [74,76],
+                z: [200, 1200]
+            };
+			this.player_control.movementSpeed = 100;
+			this.player_control.lookSpeed = 0.1;
         }
     };
 
@@ -34,6 +53,7 @@ class SceneControler {
             const dt = (time - this.prev_time)/1000;
             if (!isNaN(dt)){
                 this.mixer.update(dt);
+                this.player_control.update(dt);
             }
             this.prev_time=time;
         }

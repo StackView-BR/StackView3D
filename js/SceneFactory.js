@@ -6,11 +6,14 @@ import { SceneControler } from './SceneControler.js';
 class SceneFactory{
     static async IconScene(){
         let iScene= new SceneWrapper();
-        
-        const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 3000);
+        iScene.scene.background = new THREE.Color( 0x000000);
+        iScene.scene.fog = new THREE.FogExp2( 0x00000, 0.0015);
+
+
+        const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 1500);
         camera.position.x = 0;
         camera.position.y = 75;
-        camera.position.z = 1000;
+        camera.position.z = 600;
         camera.lookAt(0,50,0);
         
         iScene.cameras.push(camera);
@@ -38,7 +41,7 @@ class SceneFactory{
         const light_resolution = 512*Math.pow(2,0);
 
         let light1 = new THREE.PointLight(0xFF7A21, 2, 10000,2);
-        light1.position.set(0, 75, 0);
+        light1.position.set(0, 75, 75);
         light1.pos = 0;
         //light1.castShadow = true;
         light1.shadow.mapSize.width = light_resolution;
@@ -46,8 +49,18 @@ class SceneFactory{
         light1.shadow.bias= -0.0001; 
         iScene.lights.push(light1);
 
-        let light_ambiente = new THREE.AmbientLight(0xFFFFFF ,0.5);
-        iScene.lights.push(light_ambiente);       
+        let light2 = new THREE.PointLight(0xFF7A21, 2, 10000,2);
+        light2.position.set(0, 75, -75);
+        light2.pos = 0;
+        light2.castShadow = true;
+        light2.shadow.mapSize.width = light_resolution;
+        light2.shadow.mapSize.height = light_resolution;
+        light2.shadow.bias= -0.0001; 
+        iScene.lights.push(light2);
+
+
+        //let light_ambiente = new THREE.AmbientLight(0xFFFFFF ,0.5);
+        //iScene.lights.push(light_ambiente);       
 
         let icon_animation = function(context) {
             //context needs to be a SceneWrapper

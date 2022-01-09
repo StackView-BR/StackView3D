@@ -29,7 +29,7 @@ async function initiate_render(){
     
     let [scene,controller] = await SceneFactory.IconScene();
     controller.setRender(renderer);
-    controller.setControlModel(SceneControler.ORBIT_CONTROLS,render);
+    controller.setControlModel(SceneControler.FIRST_PERSON_PLANAR_CONTROL,render);
     animate(); //Start Animations
     
     function render() {

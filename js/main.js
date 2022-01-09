@@ -17,6 +17,7 @@ async function initiate_render(){
     //just set the render pass scene    
     const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
+    //TODO: interface this with no based window
     document.body.appendChild( renderer.domElement );
     
     //used for runtime rendered shadows
@@ -37,7 +38,7 @@ async function initiate_render(){
     };
     const pointer = controller.selector.pointer;
     
-    document.addEventListener( 'mousemove', onPointerMove );
+    renderer.domElement.addEventListener( 'mousemove', onPointerMove );
     window.addEventListener( 'resize', onResize );
     
     
@@ -66,6 +67,7 @@ async function initiate_render(){
         scene.cameras[scene.active_camera].aspect = window.innerWidth / window.innerHeight;
 		scene.cameras[scene.active_camera].updateProjectionMatrix();
         renderer.setSize( window.innerWidth, window.innerHeight );
+        controller.player_control.handleResize();
         //controller.player_control.update();
     }
 }

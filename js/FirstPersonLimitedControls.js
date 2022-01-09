@@ -70,9 +70,7 @@ class FirstPersonLimitedControls {
 		//
 
 		this.handleResize = function () {
-
 			if ( this.domElement === document ) {
-
 				this.viewHalfX = window.innerWidth / 2;
 				this.viewHalfY = window.innerHeight / 2;
 
@@ -82,7 +80,6 @@ class FirstPersonLimitedControls {
 				this.viewHalfY = this.domElement.offsetHeight / 2;
 
 			}
-
 		};
 
 		this.onMouseDown = function ( event ) {
@@ -126,16 +123,16 @@ class FirstPersonLimitedControls {
 		};
 
 		this.onMouseMove = function ( event ) {
-
 			if ( this.domElement === document ) {
 
 				this.mouseX = event.pageX - this.viewHalfX;
 				this.mouseY = event.pageY - this.viewHalfY;
-
+				
 			} else {
-
+				
 				this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
 				this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+				//console.log(this.domElement);
 
 			}
 

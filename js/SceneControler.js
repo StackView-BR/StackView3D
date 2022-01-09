@@ -13,10 +13,11 @@ class SceneControler {
         this.scene = scene;
         this.player_control = null;
         this.mixer=null;
-        this.selector = { 
-            raycaster: new THREE.Raycaster(),
+        this.selector = {
+            raycaster: new THREE.Raycaster(undefined,undefined,0,750),
             pointer: new THREE.Vector2(),
-        }
+        };
+        
     }
 
     setRender(renderer){
@@ -61,8 +62,8 @@ class SceneControler {
     };
     
     selectObjects(){
+
         this.selector.raycaster.setFromCamera(this.selector.pointer, this.scene.cameras[this.scene.active_camera]);
-    
         const intersects_light = this.selector.raycaster.intersectObjects(this.scene.imported_scenes['light-icon'].children, false );
         
         if ( intersects_light.length > 0 ) {
